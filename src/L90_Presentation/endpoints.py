@@ -1,11 +1,13 @@
-from brewup import app
+from fastapi import APIRouter
+
+router = APIRouter()
 
 
-@app.get("/sales/")
+@router.get("/sales/")
 async def handlewelcomeonsales():
     return "Welcome to BrewUp API Sales Module"
 
 
-@app.get("/warehouses/")
+@router.get("/warehouses/")
 async def handlewelcomeonwarehouses():
     return "Welcome to BrewUp API Warehouses Module"

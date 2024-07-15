@@ -1,10 +1,17 @@
-import asyncio
+# import asyncio
+
 from fastapi import FastAPI
+
+from .endpoints import router
 
 app = FastAPI()
 
-async def startup():
-  pass
+app.include_router(router)
 
-if __name__ == "__main__":
-  asyncio.run(startup())
+
+# async def startup():
+#     pass
+
+
+# if __name__ == "__main__":
+#     asyncio.run(startup())
