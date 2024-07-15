@@ -1,2 +1,3 @@
 from typing import NewType
-SalesOrderNumber = NewType('SalesOrderNumber', str)
+
+SalesOrderNumber = NewType("SalesOrderNumber", str)

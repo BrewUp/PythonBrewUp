@@ -3,3 +3,4 @@ diator
 fastapi
 pytest
 redis
+pydantic
