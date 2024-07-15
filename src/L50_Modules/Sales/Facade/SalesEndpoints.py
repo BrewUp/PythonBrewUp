@@ -1,7 +1,7 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 
 from ..Facade import SalesFacade
-from ..SharedKernel.Contracts import CreateSalesOrderContract
+from ..SharedKernel.Contracts.CreateSalesOrderContract import CreateSalesOrderContract
 
 router = APIRouter()
 
@@ -11,7 +11,7 @@ async def handlewelcomeonsales():
     return "Welcome to BrewUp API Sales Module"
 
 
-@router.post("/sales/")
+@router.post("/sales/", status_code=status.HTTP_201_CREATED)
 async def create_sales_order(request_payload: CreateSalesOrderContract):
     SalesFacade().create_sales_order(create_sales_order_contract=request_payload)
-    return "ok"
+    return {"message": "ok"}

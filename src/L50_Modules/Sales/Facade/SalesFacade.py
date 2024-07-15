@@ -1,6 +1,7 @@
 import uuid
 
-from src.L30_Shared.DomainIds import CustomerId, CustomerName
+from src.L30_Shared.DomainIds.CustomerId import CustomerId
+from src.L30_Shared.DomainIds.CustomerName import CustomerName
 
 from ..Facade.SalesHelper import build_sales_mediator
 from ..Messages.Commands.CreateSalesOrder import CreateSalesOrder
