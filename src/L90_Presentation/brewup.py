@@ -1,18 +1,26 @@
 import asyncio
 
-from redis import asyncio as redis
+from fastapi import FastAPI
 from di import Container, bind_by_type
 from di.dependent import Dependent
 from diator.container.di import DIContainer
 from diator.mediator import Mediator
-from diator.message_brokers.redis import RedisMessageBroker 
-
-from Sales.Domain.CommandHandlers.CreateSalesOrderCommandHandler import CreateSalesOrderCommandHandler
+from diator.message_brokers.redis import RedisMessageBroker
+from redis import asyncio as redis
+from Sales.Domain.CommandHandlers.CreateSalesOrderCommandHandler import (
+    CreateSalesOrderCommandHandler,
+)
 from Sales.Messages.Commands.CreateSalesOrder import CreateSalesOrder
-from Sales.Messages.Events.SalesOrderCreated import SalesOrderCreatedEventHandler
-from Sales.Messages.Events.SalesOrderCreated import SalesOrderCreated
-from Sales.Messages.Queries.ReadSalesOrderQuery import ReadSalesOrderQueryHandler
-from Sales.Messages.Queries.ReadSalesOrderQuery import ReadSalesOrderQuery
+from Sales.Messages.Events.SalesOrderCreated import (
+    SalesOrderCreated,
+    SalesOrderCreatedEventHandler,
+)
+from Sales.Messages.Queries.ReadSalesOrderQuery import (
+    ReadSalesOrderQuery,
+    ReadSalesOrderQueryHandler,
+)
+
+app = FastAPI()
 
 def setup_di() -> DIContainer:
     external_container = Container()
@@ -70,11 +78,13 @@ async def build_mediator() -> Mediator:
 
 
 async def main() -> None:
+
     mediator = build_mediator()
 
     # response = await mediator.send(ReadMeetingQuery(meeting_id=57))
 
     # assert isinstance(response, ReadMeetingQueryResult)
+
 
 if __name__ == "__main__":
     asyncio.run(main())

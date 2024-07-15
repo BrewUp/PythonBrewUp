@@ -1,8 +1,8 @@
 import pytest
-from ..DomainIds.BeerName import BeerName 
+from ..DomainIds.BeerName import BeerName
 
 def test_verify_equal():
-  beerName1 = BeerName("IPA")
-  beerName2 = BeerName("IPA")
+    beerName1 = BeerName("IPA")
+    beerName2 = BeerName("IPA")
 
-  assert beerName1 == beerName2
+    assert beerName1 == beerName2

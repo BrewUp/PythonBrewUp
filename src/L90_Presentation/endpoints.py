@@ -1,5 +1,11 @@
-async def handlewelcomeonbrewup():
-    return "Welcome to BrewUp API"
+from brewup import app
 
-async def handlegetdata(name: str):
-    return {"message": f"Hello {name}"}
+
+@app.get("/sales/")
+async def handlewelcomeonsales():
+    return "Welcome to BrewUp API Sales Module"
+
+
+@app.get("/warehouses/")
+async def handlewelcomeonwarehouses():
+    return "Welcome to BrewUp API Warehouses Module"
