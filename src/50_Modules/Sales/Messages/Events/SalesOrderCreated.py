@@ -1,8 +1,8 @@
 import dataclasses
 
 from diator.events import DomainEvent, NotificationEvent, ECSTEvent
-import BrewUp.Sales.SharedKernel.DomainIds.SalesOrderId
-import BrewUp.Sales.SharedKernel.CustomTypes.SalesOrderNumber
+from Sales.Values.SalesOrderId import SalesOrderId
+from Sales.Values.SalesOrderNumber import SalesOrderNumber
 
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class SalesOrderCreated(DomainEvent):  # will be handled by an event handler
