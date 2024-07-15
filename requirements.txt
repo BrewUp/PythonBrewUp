@@ -1,0 +1,5 @@
+di
+diator
+fastapi
+pytest
+redis

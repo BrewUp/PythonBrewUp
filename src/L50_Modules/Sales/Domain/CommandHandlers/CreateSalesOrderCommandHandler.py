@@ -1,7 +1,10 @@
-from Sales.Mesages.Commands.CreateSalesOrder import CreateSalesOrder
-from diator.events import Event, EventEmitter, EventMap
+from diator.events import Event
+from diator.requests import RequestHandler
 
-class CreateSalesCommandHandler(RequestHandler[CreateSalesOrder, None]):
+from ...Messages.Commands.CreateSalesOrder import CreateSalesOrder
+
+
+class CreateSalesOrderCommandHandler(RequestHandler[CreateSalesOrder, None]):
     def __init__(self, sales_api) -> None:
         self.sales_api = sales_api
         self._events: list[Event] = []

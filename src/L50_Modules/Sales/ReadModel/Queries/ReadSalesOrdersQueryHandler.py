@@ -1,7 +1,11 @@
 from diator.requests import RequestHandler
-from Sales.Mesages.Queries.ReadSalesOrdersQuery import ReadSalesOrderQuery
 
-class ReadSalesOrdersQueryHandler(RequestHandler[ReadSalesOrderQuery, ReadSalesOrderQueryResult]):
+from ...Messages.Queries.ReadSalesOrdersQuery import ReadSalesOrderQuery
+
+
+class ReadSalesOrdersQueryHandler(
+    RequestHandler[ReadSalesOrderQuery, ReadSalesOrderQueryResult]
+):
     def __init__(self, sales_api: SalesApi) -> None:
         self._sales_api = sales_api
         self._events: list[Event] = []
@@ -12,7 +16,4 @@ class ReadSalesOrdersQueryHandler(RequestHandler[ReadSalesOrderQuery, ReadSalesO
 
     async def handle(self, request: ReadSalesOrderQuery) -> ReadSalesOrderQueryResult:
         link = await self._sales_api.get_link(request.salesOrder_id)
-        return ReadSalesOrderQueryResult(
-            salesOrder_id=request.salesOrder_id,
-            link=link
-        )
+        return ReadSalesOrderQueryResult(salesOrder_id=request.salesOrder_id, link=link)

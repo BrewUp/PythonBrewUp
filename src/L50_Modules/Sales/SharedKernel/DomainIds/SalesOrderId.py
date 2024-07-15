@@ -1,4 +1,5 @@
 from typing import NewType
-from SharedKernel.DomainIds.DomainId import DomainId
+
+from src.L30_Shared.DomainIds.DomainId import DomainId
 
 SalesOrderId = NewType("SalesOrderId", DomainId)

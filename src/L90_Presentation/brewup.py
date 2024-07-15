@@ -1,26 +1,31 @@
 import asyncio
 
-from fastapi import FastAPI
 from di import Container, bind_by_type
 from di.dependent import Dependent
 from diator.container.di import DIContainer
 from diator.mediator import Mediator
 from diator.message_brokers.redis import RedisMessageBroker
+from fastapi import FastAPI
 from redis import asyncio as redis
-from Sales.Domain.CommandHandlers.CreateSalesOrderCommandHandler import (
+
+from src.L50_Modules.Sales.Domain.CommandHandlers.CreateSalesOrderCommandHandler import (
     CreateSalesOrderCommandHandler,
 )
-from Sales.Messages.Commands.CreateSalesOrder import CreateSalesOrder
-from Sales.Messages.Events.SalesOrderCreated import (
-    SalesOrderCreated,
-    SalesOrderCreatedEventHandler,
-)
-from Sales.Messages.Queries.ReadSalesOrderQuery import (
+from src.L50_Modules.Sales.Messages.Commands.CreateSalesOrder import CreateSalesOrder
+from src.L50_Modules.Sales.Messages.Events.SalesOrderCreated import SalesOrderCreated
+from src.L50_Modules.Sales.Messages.Queries.ReadSalesOrdersQuery import (
     ReadSalesOrderQuery,
-    ReadSalesOrderQueryHandler,
 )
 
+from .endpoints import router
+
+# from src.L50_Modules.Sales.ReadModel.EventHandlers.SalesOrderCreatedEventHandler import (
+#     SalesOrderCreatedEventHandler,
+# )
+
+
 app = FastAPI()
+
 
 def setup_di() -> DIContainer:
     external_container = Container()
@@ -32,19 +37,19 @@ def setup_di() -> DIContainer:
         )
     )
 
-    external_container.bind(
-        bind_by_type(
-            Dependent(SalesOrderCreatedEventHandler, scope="request"),
-            SalesOrderCreatedEventHandler,
-        )
-    )
+    # external_container.bind(
+    #     bind_by_type(
+    #         Dependent(SalesOrderCreatedEventHandler, scope="request"),
+    #         SalesOrderCreatedEventHandler,
+    #     )
+    # )
 
-    external_container.bind(
-        bind_by_type(
-            Dependent(ReadSalesOrderQueryHandler, scope="request"),
-            ReadSalesOrderQueryHandler,
-        )
-    )
+    # external_container.bind(
+    #     bind_by_type(
+    #         Dependent(ReadSalesOrderQueryHandler, scope="request"),
+    #         ReadSalesOrderQueryHandler,
+    #     )
+    # )
 
     container = DIContainer()
     container.attach_external_container(external_container)
@@ -80,6 +85,7 @@ async def build_mediator() -> Mediator:
 async def main() -> None:
 
     mediator = build_mediator()
+    app.include_router(router)
 
     # response = await mediator.send(ReadMeetingQuery(meeting_id=57))
 
