@@ -15,7 +15,7 @@ class TestCreateSalesOrder(BaseTest):
     customer_id = uuid.uuid4()
     customer_name = "Pippo"
 
-    def given(self):
+    def given(self) -> list[DomainEvent]:
         return []
 
     def when(self) -> Request:
