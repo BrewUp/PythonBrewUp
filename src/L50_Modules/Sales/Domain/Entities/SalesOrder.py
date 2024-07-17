@@ -30,7 +30,6 @@ class SalesOrder(AggregateRoot):
         customer_id: CustomerId,
         customer_name: CustomerName,
     ):
-        # TODO Salvataggio su db dell'ordine
         sales_order = SalesOrder(
             salesOrder_id=salesOrder_id,
             salesOrder_number=salesOrder_number,
