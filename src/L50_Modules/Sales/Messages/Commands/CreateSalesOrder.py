@@ -14,3 +14,4 @@ class CreateSalesOrder(Request):
 
     customer_id: uuid.UUID
     customer_name: str
+

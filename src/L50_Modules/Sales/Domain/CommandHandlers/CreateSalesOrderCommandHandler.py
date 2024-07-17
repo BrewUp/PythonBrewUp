@@ -1,7 +1,7 @@
 from diator.events import Event
 from diator.requests import RequestHandler
-from src.L50_Modules.Sales.Domain.Entities import SalesOrder
 
+from ...Domain.Entities.SalesOrder import SalesOrder
 from ...Messages.Commands.CreateSalesOrder import CreateSalesOrder
 
 
@@ -14,5 +14,10 @@ class CreateSalesOrderCommandHandler(RequestHandler[CreateSalesOrder, None]):
         return self._events
 
     async def handle(self, request: CreateSalesOrder) -> None:
-        CreateSalesOrder(request.salesOrder_id, request.salesOrder_number, request.customer_id, request.customer_name)
-        self._events = SalesOrder.events
+        sales_order = SalesOrder.create_sales_order(
+            salesOrder_id=request.salesOrder_id,
+            salesOrder_number=request.salesOrder_number,
+            customer_id=request.customer_id,
+            customer_name=request.customer_name,
+        )
+        self._events = sales_order.events
