@@ -14,7 +14,6 @@ from ...SharedKernel.DomainIds.SalesOrderId import SalesOrderId
 class SalesOrderCreated(DomainEvent):  # will be handled by an event handler
     salesOrder_id: SalesOrderId = dataclasses.field(default=uuid.uuid4())
     salesOrder_number: SalesOrderNumber = dataclasses.field(default="")
-
     customer_id: CustomerId = dataclasses.field(default=uuid.uuid4())
     customer_name: CustomerName = dataclasses.field(default="")
 

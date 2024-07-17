@@ -1,10 +1,7 @@
 from src.L30_Shared.CustomTypes.AggregateRoot import AggregateRoot
 from src.L30_Shared.DomainIds.DomainId import DomainId
+from src.L30_Shared.Repositories.Repository import Repository
 
 
-class EventStoreRepository:
-    def get_by_id(self, domain_id: DomainId) -> AggregateRoot:
-        pass
-
-    def save(self, aggregate_root: AggregateRoot):
-        pass
+class EventStoreRepository(Repository):
+    pass
