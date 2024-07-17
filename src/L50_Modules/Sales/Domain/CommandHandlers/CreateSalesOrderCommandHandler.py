@@ -9,7 +9,7 @@ from ...Messages.Commands.CreateSalesOrder import CreateSalesOrder
 
 
 class CreateSalesOrderCommandHandler(RequestHandler[CreateSalesOrder, None]):
-    def __init__(self, repository: EventStoreRepository) -> None:
+    def __init__(self, repository: EventStoreRepository, *args, **kwargs) -> None:
         self._events: list[Event] = []
         self.repository = repository
 
@@ -17,7 +17,7 @@ class CreateSalesOrderCommandHandler(RequestHandler[CreateSalesOrder, None]):
     def events(self) -> list[Event]:
         return self._events
 
-    async def handle(self, request: CreateSalesOrder) -> None:
+    def handle(self, request: CreateSalesOrder) -> None:
         sales_order = SalesOrder.create_sales_order(
             salesOrder_id=request.salesOrder_id,
             salesOrder_number=request.salesOrder_number,

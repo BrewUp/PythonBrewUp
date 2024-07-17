@@ -1,4 +1,5 @@
 import json
+from functools import singledispatchmethod
 
 from esdbclient import EventStoreDBClient
 
@@ -14,7 +15,11 @@ class SalesOrderRepository(EventStoreRepository):
         )
         super().__init__()
 
-    def get_by_id(self, sales_order_id: SalesOrderId) -> SalesOrder:
+    get_by_id = singledispatchmethod(EventStoreRepository.get_by_id)
+    save = singledispatchmethod(EventStoreRepository.save)
+
+    @get_by_id.register
+    def _get_by_id(self, sales_order_id: SalesOrderId) -> SalesOrder:
         streams = self.client.get_stream(stream_name=sales_order_id)
         sales_order = SalesOrder()
         for stream in streams:
@@ -22,5 +27,6 @@ class SalesOrderRepository(EventStoreRepository):
             sales_order.apply(event=json.loads(stream))
         return sales_order
 
-    def save(self, sales_order: SalesOrder):
+    @save.register
+    def _save(self, sales_order: SalesOrder):
         pass

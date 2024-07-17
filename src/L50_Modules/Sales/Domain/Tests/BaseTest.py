@@ -5,12 +5,8 @@ from src.L30_Shared.Repositories.InMemoryRepository import InMemoryRepository
 
 
 class BaseTest:
-
-    def __init__(self):
+    def startup_test(self) -> None:
         self.repository = InMemoryRepository()
-        pass
-
-    def test_startup(self) -> None:
         self.repository.apply_given_events(self.given())
         handler = self.on_handler(self)
         handler.handle(self.when())
@@ -31,4 +27,10 @@ class BaseTest:
         pass
 
     def compare_events(self, expected: list[DomainEvent], published: list[DomainEvent]) -> bool:
-        return expected == published
+        zipped_events = zip(expected, published)
+        is_valid = len(expected) == len(published)
+        for e, p in zipped_events:
+            if not is_valid:
+                break
+            is_valid = type(e) == type(p) and e == p
+        assert is_valid is True

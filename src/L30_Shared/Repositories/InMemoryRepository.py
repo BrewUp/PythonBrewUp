@@ -1,19 +1,22 @@
+from functools import singledispatchmethod
+
 from diator.events import DomainEvent
 
 from src.L30_Shared.CustomTypes.AggregateRoot import AggregateRoot
 from src.L30_Shared.DomainIds.DomainId import DomainId
 from src.L30_Shared.Repositories.Repository import Repository
+from src.L50_Modules.Sales.Domain.Entities.SalesOrder import SalesOrder
 
 
 class InMemoryRepository(Repository):
-    given_events: list[DomainEvent] = []
-    events: list[DomainEvent] = []
+    def __init__(self) -> None:
+        self.given_events: list[DomainEvent] = []
+        self.events: list[DomainEvent] = []
+        super().__init__()
 
-    def apply_given_events(self, aggregate_root: AggregateRoot):
-        for event in self.given_events:
-            aggregate_root.apply(event)
+    def apply_given_events(self, events: list[DomainEvent]):
+        self.given_events = events
 
-    def save(self, aggregate_root: AggregateRoot):
-        print("SONO QUI")
-        for event in aggregate_root.committed_events:
-            self.given_events.append(event)
+    def save(self, sales_order: SalesOrder):
+        for event in sales_order.uncommited_events:
+            self.events.append(event)

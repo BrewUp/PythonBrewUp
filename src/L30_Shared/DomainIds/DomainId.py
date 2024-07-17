@@ -1,4 +1,9 @@
-from typing import NewType
 import uuid
 
-DomainId = NewType('DomainId', uuid.UUID)
+# from typing import NewType
+
+# DomainId = NewType("DomainId", uuid.UUID)
+
+
+class DomainId(uuid.UUID):
+    pass

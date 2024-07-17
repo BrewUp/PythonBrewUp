@@ -30,14 +30,13 @@ class SalesOrder(AggregateRoot):
         customer_id: CustomerId,
         customer_name: CustomerName,
     ):
-        # TODO Salvataggio su db dell'ordine
         sales_order = SalesOrder(
             salesOrder_id=salesOrder_id,
             salesOrder_number=salesOrder_number,
             customer_id=customer_id,
             customer_name=customer_name,
         )
-        sales_order._create_sales_order()
+        sales_order._create_sales_order_v2()
         return sales_order
 
     def _create_sales_order(self):
