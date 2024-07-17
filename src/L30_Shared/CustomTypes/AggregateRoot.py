@@ -1,4 +1,5 @@
 from dataclasses import dataclass, field
+from functools import singledispatchmethod
 
 from diator.events import DomainEvent
 

@@ -7,7 +7,7 @@ from src.L30_Shared.Repositories.InMemoryRepository import InMemoryRepository
 from src.L50_Modules.Sales.Domain.CommandHandlers.CreateSalesOrderCommandHandler import CreateSalesOrderCommandHandler
 from src.L50_Modules.Sales.Domain.Tests.BaseTest import BaseTest
 from src.L50_Modules.Sales.Messages.Commands.CreateSalesOrder import CreateSalesOrder
-from src.L50_Modules.Sales.Messages.Events.SalesOrderCreated import SalesOrderCreated
+from src.L50_Modules.Sales.Messages.Events.SalesOrderCreated import SalesOrderCreated, SalesOrderCreatedV2
 
 
 class TestCreateSalesOrder(BaseTest):

@@ -14,5 +14,6 @@ class InMemoryRepository(Repository):
             aggregate_root.apply(event)
 
     def save(self, aggregate_root: AggregateRoot):
+        print("SONO QUI")
         for event in aggregate_root.committed_events:
             self.given_events.append(event)
