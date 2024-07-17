@@ -4,3 +4,4 @@ fastapi
 pytest
 redis
 pydantic
+esdbclient

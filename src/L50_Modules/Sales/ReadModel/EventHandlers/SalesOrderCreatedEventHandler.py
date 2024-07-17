@@ -9,4 +9,4 @@ class SalesOrderCreatedEventHandler(EventHandler[CreateSalesOrder]):
         self._create_sales_order = create_sales_order
 
     async def handle(self, event: SalesOrderCreated) -> None:
-        await self._meeting_api.notify(event.meeting_id, "New user joined!")
+        await self._create_sales_order.notify(event.SalesOrderId, "New user joined!")
