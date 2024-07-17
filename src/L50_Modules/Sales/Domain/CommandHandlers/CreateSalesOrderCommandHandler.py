@@ -1,12 +1,12 @@
 from diator.events import Event
 from diator.requests import RequestHandler
+from src.L50_Modules.Sales.Domain.Entities import SalesOrder
 
 from ...Messages.Commands.CreateSalesOrder import CreateSalesOrder
 
 
 class CreateSalesOrderCommandHandler(RequestHandler[CreateSalesOrder, None]):
-    def __init__(self, sales_api) -> None:
-        self.sales_api = sales_api
+    def __init__(self) -> None:
         self._events: list[Event] = []
 
     @property
@@ -14,6 +14,5 @@ class CreateSalesOrderCommandHandler(RequestHandler[CreateSalesOrder, None]):
         return self._events
 
     async def handle(self, request: CreateSalesOrder) -> None:
-        self.sales_api.join(request.salesOrder_id, request.salesOrder_number)
-        if request.is_late:
-            self.sales_api.warn(request.salesOrder_number)
+        CreateSalesOrder(request.salesOrder_id, request.salesOrder_number, request.customer_id, request.customer_name)
+        self._events = SalesOrder.events
