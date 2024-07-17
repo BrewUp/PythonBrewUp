@@ -7,7 +7,7 @@ from src.L30_Shared.Repositories.InMemoryRepository import InMemoryRepository
 from src.L50_Modules.Sales.Domain.CommandHandlers.CreateSalesOrderCommandHandler import CreateSalesOrderCommandHandler
 from src.L50_Modules.Sales.Domain.Tests.BaseTest import BaseTest
 from src.L50_Modules.Sales.Messages.Commands.CreateSalesOrder import CreateSalesOrder
-from src.L50_Modules.Sales.Messages.Events.SalesOrderCreated import SalesOrderCreated
+from src.L50_Modules.Sales.Messages.Events.SalesOrderCreated import SalesOrderCreated, SalesOrderCreatedV2
 
 
 class TestCreateSalesOrder(BaseTest):
@@ -29,10 +29,10 @@ class TestCreateSalesOrder(BaseTest):
         )
 
     def on_handler(self, command: Request):
-        CreateSalesOrderCommandHandler(command, repository=self.repository)
+        CreateSalesOrderCommandHandler(repository=self.repository)
 
     def then(self):
-        event_expected = SalesOrderCreated(
+        event_expected = SalesOrderCreatedV2(
             salesOrder_id=self.sales_order_id,
             salesOrder_number=self.sales_order_number,
             salesOrder_state="open",

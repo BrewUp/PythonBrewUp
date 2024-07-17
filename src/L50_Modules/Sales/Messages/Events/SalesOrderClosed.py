@@ -13,3 +13,4 @@ from ...SharedKernel.DomainIds.SalesOrderId import SalesOrderId
 @dataclasses.dataclass(frozen=True, kw_only=True)
 class SalesOrderClosed(DomainEvent):  # will be handled by an event handler
     salesOrder_id: SalesOrderId = dataclasses.field(default=uuid.uuid4())
+    salesOrder_state: str = dataclasses.field(default="closed")

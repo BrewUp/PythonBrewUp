@@ -1,5 +1,6 @@
 import uuid
 from dataclasses import dataclass, field
+from functools import singledispatchmethod
 
 from diator.events import DomainEvent
 
@@ -19,6 +20,8 @@ class SalesOrder(AggregateRoot):
     salesOrder_state: str = field(default="open")
     customer_id: CustomerId = field(default=uuid.uuid4())
     customer_name: CustomerName = field(default="")
+
+    apply = singledispatchmethod(AggregateRoot.apply)
 
     @staticmethod
     def create_sales_order(
@@ -57,35 +60,29 @@ class SalesOrder(AggregateRoot):
         self.raise_event(event)
 
     def close_sales_order(self, salesOrder_id: SalesOrderId):
-        event = SalesOrderClosed(salesOrder_id=salesOrder_id)
+        event = SalesOrderClosed(salesOrder_id=salesOrder_id, salesOrder_state="closed")
         self.raise_event(event)
 
-    def apply(self, event: DomainEvent):
-        if isinstance(event, SalesOrderCreated):
-            sales_order_created_v2 = SalesOrderCreatedV2(
-                salesOrder_id=event.salesOrder_id,
-                salesOrder_number=event.salesOrder_number,
-                salesOrder_state="open",
-                customer_id=event.customer_id,
-                customer_name=event.customer_name,
-            )
-            self.apply(sales_order_created_v2)
-        elif isinstance(event, SalesOrderCreatedV2):
-            self.salesOrder_id = event.salesOrder_id
-            self.salesOrder_number = event.salesOrder_number
-            self.salesOrder_state = event.salesOrder_state
-            self.customer_id = event.customer_id
-            self.customer_name = event.customer_name
-        elif isinstance(event, SalesOrderClosed):
-            self.salesOrder_id = event.salesOrder_id
+    @apply.register
+    def _apply(self, event: SalesOrderCreated):
+        sales_order_created_v2 = SalesOrderCreatedV2(
+            salesOrder_id=event.salesOrder_id,
+            salesOrder_number=event.salesOrder_number,
+            salesOrder_state="open",
+            customer_id=event.customer_id,
+            customer_name=event.customer_name,
+        )
+        self.apply(sales_order_created_v2)
 
-    # TODO capire overload in python
-    # def apply(self, event: SalesOrderCreated):
-    #     self.salesOrder_id = event.salesOrder_id
-    #     self.salesOrder_number = event.salesOrder_number
-    #     self.customer_id = event.customer_id
-    #     self.customer_name = event.customer_name
+    @apply.register
+    def _apply(self, event: SalesOrderCreatedV2):
+        self.salesOrder_id = event.salesOrder_id
+        self.salesOrder_number = event.salesOrder_number
+        self.salesOrder_state = event.salesOrder_state
+        self.customer_id = event.customer_id
+        self.customer_name = event.customer_name
 
-    # def apply(self, event: SalesOrderClosed):
-    #     self.salesOrder_id = event.salesOrder_id
-    #     # self.salesOrderState = event.salesOrderState
+    @apply.register
+    def _apply(self, event: SalesOrderClosed):
+        self.salesOrder_id = event.salesOrder_id
+        self.salesOrder_state = event.salesOrder_state
