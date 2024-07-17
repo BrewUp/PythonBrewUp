@@ -16,7 +16,7 @@ class TestCreateSalesOrder(BaseTest):
     customer_id = uuid.uuid4()
     customer_name = "Pippo"
 
-    def given(self):
+    def given(self) -> list[DomainEvent]:
         return []
 
     def when(self) -> Request:
@@ -28,13 +28,12 @@ class TestCreateSalesOrder(BaseTest):
         )
 
     def on_handler(self, command: Request) -> RequestHandler[CreateSalesOrder, None]:
-        CreateSalesOrderCommandHandler(command, repository=self.repository)
+        return CreateSalesOrderCommandHandler(command, repository=self.repository)
 
-    def then(self):
+    def then(self)-> list[DomainEvent]:
         event_expected = SalesOrderCreated(
             salesOrder_id=self.sales_order_id,
             salesOrder_number=self.sales_order_number,
-            salesOrder_state="open",
             customer_id=self.customer_id,
             customer_name=self.customer_name,
         )
@@ -43,8 +42,3 @@ class TestCreateSalesOrder(BaseTest):
 
 def test_create_sales_order(self):
     self.test_startup()
-    # test_handler = TestCreateSalesOrder()
-    # test_handler.given([])
-    # create_sales_order = test_handler.when()
-    # test_handler.on_handler(create_sales_order)
-    # test_handler.then()

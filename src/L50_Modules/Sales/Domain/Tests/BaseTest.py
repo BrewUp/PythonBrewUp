@@ -8,7 +8,6 @@ class BaseTest:
 
     def __init__(self):
         self.repository = InMemoryRepository()
-        pass
 
     def test_startup(self) -> None:
         self.repository.apply_given_events(self.given())
